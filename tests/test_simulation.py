@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+import copy
 from finpy.account import TaxableAccount, TaxDeferredAccount, TaxExemptAccount
 from finpy.simulation import SimulationConfig, Portfolio, RetirementSimulator
 
@@ -85,9 +86,21 @@ def test_monte_carlo_runs_multiple_simulations(sample_portfolio, sample_config):
     assert len(results["final_balances"]) == iterations
     assert sample_portfolio.total_balance == simulator.portfolio.total_balance
 
-def test_calculate_success_rate():
+def test_calculate_success_rate(sample_portfolio, sample_config):
     """Verify correct success rate for a given set of final balances."""
-    assert True
+    # Scenario 1: Guaranteed success (e.g., zero expenses)
+    config_success = copy.deepcopy(sample_config)
+    config_success.retirement_expenses = 0
+    simulator = RetirementSimulator(sample_portfolio, config_success)
+    result_success = simulator.run_monte_carlo_simulation(iterations=10)
+    assert result_success["success_rate"] == 1.0
+
+    # Scenario 2: Guaranteed failure (e.g., huge expenses)
+    config_failure = copy.deepcopy(sample_config)
+    config_failure.retirement_expenses = 1_000_000_000
+    simulator = RetirementSimulator(sample_portfolio, config_failure)
+    result_failure = simulator.run_monte_carlo_simulation(iterations=10)
+    assert result_failure["success_rate"] == 0.0
 
 def test_monte_carlo_output_format(sample_portfolio, sample_config):
     """Verify the output structure contains the success rate and raw data."""

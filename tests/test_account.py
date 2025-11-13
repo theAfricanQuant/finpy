@@ -43,3 +43,10 @@ def test_withdraw_raises_error_on_insufficient_funds():
     account = Account(balance=100.0)
     with pytest.raises(ValueError, match="Insufficient funds"):
         account.withdraw(200.0)
+
+
+def test_project_growth_increases_balance():
+    """Verify balance is correctly increased by the return rate."""
+    account = Account(balance=1000.0)
+    account.project_growth(0.10)  # 10% growth
+    assert account.balance == 1100.0

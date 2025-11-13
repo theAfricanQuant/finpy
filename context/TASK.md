@@ -16,7 +16,7 @@ This document outlines the development tasks for building the PyTire library, ba
 ### Cash Flow & Growth (FR1.2, FR1.3, FR1.4)
 - [x] 3. Implement `deposit` and `withdraw` methods on the base `Account` class.
     - **Tests:** `test_deposit_increases_balance`, `test_withdraw_decreases_balance`, `test_withdraw_raises_error_on_insufficient_funds`.
-- [ ] 4. Implement a `project_growth` method on the base `Account` class to apply a deterministic annual return.
+- [x] 4. Implement a `project_growth` method on the base `Account` class to apply a deterministic annual return.
     - **Test:** `test_project_growth_increases_balance`: Verify balance is correctly increased by the return rate.
 - [ ] 5. Create a utility function to apply inflation to a given value.
     - **Test:** `test_apply_inflation`: Verify a value is correctly reduced by the inflation rate.

@@ -16,6 +16,10 @@ class Account:
             raise ValueError("Insufficient funds")
         self.balance -= amount
 
+    def project_growth(self, rate: float) -> None:
+        """Projects the growth of the account balance over one period."""
+        self.balance *= (1 + rate)
+
 
 class TaxableAccount(Account):
     """Represents a taxable brokerage account."""

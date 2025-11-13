@@ -3,14 +3,14 @@
 This document outlines the development tasks for building the PyTire library, based on the PRD. All tasks should be completed following Test-driven Development (TDD).
 
 ## Phase 0: Project Setup
-- [ ] 0. Create the `tests` directory to house all test files.
+- [x] 0. Create the `tests` directory to house all test files.
 
 ## Phase 1: Core Financial Modeling Engine (F1)
 
 ### Account Modeling (FR1.1)
-- [ ] 1. Create a base `Account` class that holds a balance.
+- [x] 1. Create a base `Account` class that holds a balance.
     - **Test:** `test_account_initialization`: Verify an account can be created with an initial balance.
-- [ ] 2. Create `TaxableAccount`, `TaxDeferredAccount`, and `TaxExemptAccount` classes inheriting from the base `Account`.
+- [x] 2. Create `TaxableAccount`, `TaxDeferredAccount`, and `TaxExemptAccount` classes inheriting from the base `Account`.
     - **Test:** `test_account_subclass_creation`: Verify instances of each subclass can be created correctly.
 
 ### Cash Flow & Growth (FR1.2, FR1.3, FR1.4)

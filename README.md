@@ -17,14 +17,15 @@
 
 ## 📊 Overview
 
-**FinPy** is a powerful, modern Python library designed for financial analysis, quantitative finance, and algorithmic trading. Built with performance and ease-of-use in mind, FinPy provides a comprehensive toolkit for financial professionals, data scientists, and quantitative analysts.
+**FinPy** is a sophisticated retirement planning and financial simulation library designed for the German market. Built with precision and ease-of-use in mind, FinPy enables individuals, financial advisors, and analysts to model retirement scenarios with accurate German tax calculations and Monte Carlo simulations.
 
 ### ✨ Key Highlights
 
-- 🎯 **Intuitive API** - Clean, Pythonic interface for complex financial calculations
-- ⚡ **High Performance** - Optimized for speed and efficiency
+- 🇩🇪 **German Tax Compliant** - Accurate 2025 German tax brackets and capital gains calculations
+- 🎲 **Monte Carlo Simulations** - Assess retirement plan robustness with stochastic modeling
+- 💼 **Multi-Account Support** - Model taxable, tax-deferred, and tax-exempt accounts
 - 🔧 **Modern Tooling** - Built with `uv` for fast dependency management
-- 📈 **Comprehensive** - From basic metrics to advanced quantitative models
+- 📊 **Deterministic & Stochastic** - Run both predictable and probability-based projections
 - 🧪 **Well-Tested** - Extensive test coverage with pytest
 - 📝 **Type-Safe** - Full type hints for better IDE support
 
@@ -32,27 +33,31 @@
 
 ## 🎯 Features
 
-### 📉 Financial Analysis
-- Portfolio analytics and optimization
-- Risk metrics and performance attribution
-- Asset pricing models
-- Time series analysis
+### 🏦 Account Management
+- **Taxable Accounts** - Standard brokerage accounts with capital gains tax
+- **Tax-Deferred Accounts** - Traditional IRA/401k with income tax on withdrawal
+- **Tax-Exempt Accounts** - Roth IRA/401k with tax-free growth and withdrawals
 
-### 💹 Market Data
-- Data fetching and processing
-- Technical indicators
-- Market microstructure analysis
+### 💰 German Tax Calculations (2025)
+- Accurate German income tax brackets for single and married filers
+- Capital gains tax (Abgeltungsteuer) at 26.375% including solidarity surcharge
+- Automatic tax optimization during withdrawal strategies
 
-### 🎲 Quantitative Models
-- Options pricing (Black-Scholes, binomial models)
-- Fixed income analytics
-- Statistical arbitrage strategies
-- Risk modeling (VaR, CVaR)
+### 📈 Retirement Simulations
+- **Deterministic Projections** - Model retirement with fixed returns
+- **Monte Carlo Analysis** - Run thousands of scenarios with variable returns
+- **Success Rate Metrics** - Calculate probability of retirement goal achievement
+- **Inflation Adjustment** - Automatic expense inflation over time
 
-### 🛠️ Utilities
-- Financial calendar utilities
-- Data validation and cleaning
-- Visualization helpers
+### 🎲 Stochastic Modeling
+- Normal distribution returns with configurable mean and standard deviation
+- Support for both growth and drawdown phases
+- Multi-account withdrawal strategies with tax efficiency
+
+### 📊 Results & Analytics
+- Detailed year-by-year projections with Pandas DataFrames
+- Account balance tracking across all account types
+- Success rate calculations for retirement security
 
 ---
 
@@ -89,39 +94,62 @@ uv sync --dev
 
 ## 🚀 Quick Start
 
-```python
-from finpy import Portfolio, Stock
-
-# Create a portfolio
-portfolio = Portfolio()
-
-# Add positions
-portfolio.add_position(Stock("AAPL"), quantity=100, price=150.0)
-portfolio.add_position(Stock("GOOGL"), quantity=50, price=2800.0)
-
-# Calculate metrics
-print(f"Total Value: ${portfolio.total_value():,.2f}")
-print(f"Returns: {portfolio.returns():.2%}")
-print(f"Sharpe Ratio: {portfolio.sharpe_ratio():.2f}")
-```
-
-### More Examples
+### Basic Retirement Simulation
 
 ```python
-from finpy.options import BlackScholes
-from finpy.risk import calculate_var
+from finpy.account import TaxableAccount, TaxDeferredAccount, TaxExemptAccount
+from finpy.simulation import Portfolio, SimulationConfig, RetirementSimulator
 
-# Option pricing
-call_price = BlackScholes.call(
-    spot=100,
-    strike=105,
-    time_to_expiry=0.25,
-    risk_free_rate=0.05,
-    volatility=0.20
+# Set up your accounts with initial balances
+taxable = TaxableAccount(balance=50000.0)
+tax_deferred = TaxDeferredAccount(balance=200000.0)
+tax_exempt = TaxExemptAccount(balance=100000.0)
+
+portfolio = Portfolio(taxable, tax_deferred, tax_exempt)
+
+# Configure your retirement scenario
+config = SimulationConfig(
+    current_age=30,
+    retirement_age=65,
+    end_age=95,
+    annual_contribution=10000.0,
+    retirement_expenses=50000.0,
+    investment_return=0.07,  # 7% annual return
+    investment_std_dev=0.15,  # 15% volatility
+    inflation_rate=0.025,  # 2.5% inflation
+    filing_status="single"
 )
 
-# Risk analysis
-var_95 = calculate_var(returns, confidence=0.95)
+# Run the simulation
+simulator = RetirementSimulator(portfolio, config)
+results_df = simulator.run_deterministic_simulation()
+
+print(results_df.head())
+print(f"\nFinal Balance: €{results_df.iloc[-1]['Total']:,.2f}")
+```
+
+### Monte Carlo Analysis
+
+```python
+# Run 10,000 simulations to assess retirement security
+monte_carlo_results = simulator.run_monte_carlo_simulation(iterations=10000)
+
+print(f"Success Rate: {monte_carlo_results['success_rate']:.1%}")
+print(f"Median Final Balance: €{sorted(monte_carlo_results['final_balances'])[5000]:,.2f}")
+```
+
+### Tax Calculations
+
+```python
+from finpy.taxes import calculate_income_tax, calculate_capital_gains_tax
+
+# Calculate German income tax on withdrawal
+income_tax = calculate_income_tax(income=80000.0, status="single")
+print(f"Income Tax: €{income_tax:,.2f}")
+
+# Calculate capital gains tax
+cap_gains_tax = calculate_capital_gains_tax(gains=10000.0)
+print(f"Capital Gains Tax: €{cap_gains_tax:,.2f}")
 ```
 
 ---
@@ -136,6 +164,10 @@ Comprehensive documentation is available at [finpy.readthedocs.io](https://finpy
 finpy/
 ├── src/finpy/          # Main package source code
 │   ├── __init__.py
+│   ├── account.py      # Account classes (Taxable, Tax-Deferred, Tax-Exempt)
+│   ├── simulation.py   # Retirement simulator and portfolio management
+│   ├── taxes.py        # German tax calculations (2025)
+│   ├── utils.py        # Utility functions (inflation adjustment)
 │   └── py.typed        # PEP 561 type marker
 ├── tests/              # Test suite
 ├── context/            # Project documentation
@@ -225,7 +257,8 @@ git checkout -b feature/your-feature-name
 - Dependencies managed via `uv`
 
 ### Core Dependencies
-- Will be listed as the project develops
+- pandas - Data manipulation and analysis
+- Python 3.14+ standard library (dataclasses, typing, random, copy)
 
 ### Development Dependencies
 - pytest - Testing framework

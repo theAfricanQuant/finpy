@@ -13,8 +13,9 @@
 
 ## 2. Goals & Objectives
 
+*   **Prime Directive**: You will NOT PROCEED with any task if you have any questions. Please ask and verify any concerns. Only proceed when you are clear as to what to do.
 *   **Model Comprehensive Financial Scenarios**: Accurately simulate portfolio growth across different account types (taxable, tax-deferred, tax-exempt).
-*   **Integrate Tax Planning**: Model the tax implications of contributions, growth, and withdrawals according to current U.S. federal tax law.
+*   **Integrate Tax Planning**: Model the tax implications of contributions, growth, and withdrawals according to current (2025) German federal tax law.
 *   **Assess Retirement Viability**: Use simulation techniques like Monte Carlo analysis to determine the probability of a successful retirement plan.
 *   **Provide a Flexible API**: Offer a clean, well-documented, and extensible Python API that is easy to configure and integrate into other projects.
 
@@ -29,8 +30,8 @@
 *   **FR1.3: Cash Flow Simulation**: Model annual cash flows, including income, savings contributions, and retirement expenses.
 *   **FR1.4: Inflation Modeling**: Account for inflation to adjust future expenses and model real (inflation-adjusted) returns.
 
-### F2: Tax Calculation Module (U.S. Federal)
-*   **FR2.1: Income Tax**: Implement the U.S. federal income tax bracket system for calculating taxes on income and traditional account withdrawals. Must support "Single" and "Married Filing Jointly" statuses.
+### F2: Tax Calculation Module (German)
+*   **FR2.1: Income Tax**: Implement the German federal income tax bracket system for calculating taxes on income and traditional account withdrawals. Must support "Single" and "Married Filing Jointly" statuses.
 *   **FR2.2: Capital Gains Tax**: Implement long-term capital gains tax calculations for withdrawals from taxable brokerage accounts.
 *   **FR2.3: Configurable Tax Laws**: Tax brackets and rates should be configurable to allow for easy updates as tax laws change. (Note: State taxes are out of scope for MVP).
 
@@ -52,10 +53,30 @@
 *   **Documentation**: The project must include comprehensive API documentation with clear examples for common use cases.
 *   **Extensibility**: The library's architecture should be modular, allowing users to extend it with custom models (e.g., different country's tax systems, more complex withdrawal strategies).
 
-## 5. Future Scope (Post-MVP)
+## 5. Coding Standards
+
+*   use Python. Lay-out is: 
+```
+finpy
+├── context
+│   └── PRD.md
+├── pyproject.toml
+├── README.md
+├── src
+│   └── finpy
+│       ├── __init__.py
+```
+*   Use TDD.
+*   since we are using uv and zshell, activate the .venv by running `activate_venv` as a zsh command to help with the activation.
+*   Write tests before each task. 
+*   Do not mock. 
+*   use SOLID best practices. 
+*   We will be using pytest to test. Add type hints
+
+## 6. Future Scope (Post-MVP)
 
 *   Modeling of Social Security and pension benefits.
 *   Support for Required Minimum Distributions (RMDs).
 *   Modeling advanced withdrawal strategies (e.g., Roth conversion ladders).
-*   Inclusion of U.S. state income tax calculations.
+*   Inclusion of Nigerian Federal income tax calculations on diaspora accounts.
 *   Helper functions for generating common visualizations (e.g., portfolio balance over time, distribution of Monte Carlo outcomes).

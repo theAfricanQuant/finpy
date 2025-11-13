@@ -1,4 +1,5 @@
 import pytest
+import random
 from finpy.account import Account, TaxableAccount, TaxDeferredAccount, TaxExemptAccount
 
 
@@ -48,5 +49,17 @@ def test_withdraw_raises_error_on_insufficient_funds():
 def test_project_growth_increases_balance():
     """Verify balance is correctly increased by the return rate."""
     account = Account(balance=1000.0)
-    account.project_growth(0.10)  # 10% growth
+    account.project_growth(0.10)  # 10% growth, std_dev=0
     assert account.balance == 1100.0
+
+
+def test_project_stochastic_growth():
+    """Verify the method uses a random number generator and handles volatility."""
+    account = Account(balance=1000.0)
+    random.seed(42) # for deterministic test results
+    account.project_growth(0.10, 0.20)
+    
+    # With seed 42, random.normalvariate(0.10, 0.20) gives approx 0.19925
+    expected_balance = 1000.0 * (1 + 0.19925695640363267)
+    assert account.balance == pytest.approx(expected_balance)
+    random.seed() # Reset seed

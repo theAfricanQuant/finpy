@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import random
 
 
 @dataclass
@@ -16,9 +17,16 @@ class Account:
             raise ValueError("Insufficient funds")
         self.balance -= amount
 
-    def project_growth(self, rate: float) -> None:
-        """Projects the growth of the account balance over one period."""
-        self.balance *= (1 + rate)
+    def project_growth(self, rate: float, std_dev: float = 0.0) -> None:
+        """
+        Projects the growth of the account balance over one period.
+        Can be deterministic (std_dev=0) or stochastic.
+        """
+        if std_dev > 0:
+            growth_rate = random.normalvariate(rate, std_dev)
+        else:
+            growth_rate = rate
+        self.balance *= (1 + growth_rate)
 
 
 class TaxableAccount(Account):

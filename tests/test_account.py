@@ -1,3 +1,4 @@
+import pytest
 from finpy.account import Account, TaxableAccount, TaxDeferredAccount, TaxExemptAccount
 
 
@@ -21,3 +22,24 @@ def test_account_subclass_creation():
     assert taxable_acc.balance == 100.0
     assert tax_deferred_acc.balance == 200.0
     assert tax_exempt_acc.balance == 300.0
+
+
+def test_deposit_increases_balance():
+    """Verify that depositing funds increases the account balance."""
+    account = Account(balance=1000.0)
+    account.deposit(500.0)
+    assert account.balance == 1500.0
+
+
+def test_withdraw_decreases_balance():
+    """Verify that withdrawing funds decreases the account balance."""
+    account = Account(balance=1000.0)
+    account.withdraw(200.0)
+    assert account.balance == 800.0
+
+
+def test_withdraw_raises_error_on_insufficient_funds():
+    """Verify withdrawing more than the balance raises a ValueError."""
+    account = Account(balance=100.0)
+    with pytest.raises(ValueError, match="Insufficient funds"):
+        account.withdraw(200.0)

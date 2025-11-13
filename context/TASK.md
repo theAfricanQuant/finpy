@@ -1,6 +1,9 @@
 # PyTire Development Tasks
 
-This document outlines the development tasks for building the PyTire library, based on the PRD. All tasks should be completed following Test-Driven Development (TDD).
+This document outlines the development tasks for building the PyTire library, based on the PRD. All tasks should be completed following Test-driven Development (TDD).
+
+## Phase 0: Project Setup
+- [ ] 0. Create the `tests` directory to house all test files.
 
 ## Phase 1: Core Financial Modeling Engine (F1)
 

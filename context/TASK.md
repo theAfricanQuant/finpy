@@ -18,7 +18,7 @@ This document outlines the development tasks for building the PyTire library, ba
     - **Tests:** `test_deposit_increases_balance`, `test_withdraw_decreases_balance`, `test_withdraw_raises_error_on_insufficient_funds`.
 - [x] 4. Implement a `project_growth` method on the base `Account` class to apply a deterministic annual return.
     - **Test:** `test_project_growth_increases_balance`: Verify balance is correctly increased by the return rate.
-- [ ] 5. Create a utility function to apply inflation to a given value.
+- [x] 5. Create a utility function to apply inflation to a given value.
     - **Test:** `test_apply_inflation`: Verify a value is correctly reduced by the inflation rate.
 
 ## Phase 2: Tax Calculation Module (German) (F2)
